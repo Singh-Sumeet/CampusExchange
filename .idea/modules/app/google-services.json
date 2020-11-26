@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "60781331689",
+    "firebase_url": "https://campus-exchange-fe998.firebaseio.com",
+    "project_id": "campus-exchange-fe998",
+    "storage_bucket": "campus-exchange-fe998.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:60781331689:android:a1308b8797e6f402845c78",
+        "android_client_info": {
+          "package_name": "com.example.campusexchange"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "60781331689-d5fn4131397dnakglkl1cl83g7mej4fk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.campusexchange",
+            "certificate_hash": "84ba995734fdca408c8d71886aae14bb7de83cad"
+          }
+        },
+        {
+          "client_id": "60781331689-kedv3o3h7vhuoaajvvc6d83hbr4m3g6r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDkYiAcuuY39cTBAyZ-n-TCM_frhnhQ37E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "60781331689-kedv3o3h7vhuoaajvvc6d83hbr4m3g6r.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
