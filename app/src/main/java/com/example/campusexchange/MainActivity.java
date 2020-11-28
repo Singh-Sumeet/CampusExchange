@@ -15,6 +15,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.squareup.picasso.Picasso;
 
+import Useful.User;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -29,7 +31,6 @@ public class MainActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
 
-        //Insert time delay here
         try {
             Thread.sleep(1000);
         }
@@ -38,7 +39,12 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if(currentUser != null) {   //User is logeged in
-            //Move to menu
+            User.setUID(currentUser.getUid());
+            User.setName(currentUser.getDisplayName());
+            User.setRegId(currentUser.getEmail().substring(0, 11));
+            //TODO:Still have to get current user's profile pic
+            //TODO:So instead of from here, we should probably get it from the collection "Users" which I am leaving for now
+
             Toast.makeText(MainActivity.this, "Logged In", Toast.LENGTH_SHORT).show();
             Intent homeIntent = new Intent(MainActivity.this, HomeActivity.class);
             startActivity(homeIntent);

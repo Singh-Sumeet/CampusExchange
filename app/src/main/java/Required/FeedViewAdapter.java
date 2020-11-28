@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -49,7 +48,7 @@ public class FeedViewAdapter extends RecyclerView.Adapter<FeedViewAdapter.FeedVi
     @Override
     public FeedViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.row_feed, parent, false);
+        View view = inflater.inflate(R.layout.card_feed, parent, false);
         return new FeedViewHolder(view);
     }
 
@@ -71,7 +70,8 @@ public class FeedViewAdapter extends RecyclerView.Adapter<FeedViewAdapter.FeedVi
                 itemIntent.putExtra("Price", prices.get(position));
                 itemIntent.putExtra("Image", imagesUrl.get(position));
                 itemIntent.putExtra("Date", dates.get(position).toString());
-                itemIntent.putExtra("Person", users.get(position).get("Name").toString());
+                itemIntent.putExtra("PersonName", users.get(position).get("Name").toString());
+                itemIntent.putExtra("PersonUID", users.get(position).get("UID").toString());
                 context.startActivity(itemIntent);
             }
         });

@@ -13,10 +13,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+        <activity android:name=".ChatActivity"></activity>
         <activity
             android:name=".ItemActivity"
-            android:parentActivityName=".HomeActivity"
-            android:label="Item Details"/>
+            android:label="Item Details"
+            android:parentActivityName=".HomeActivity" />
         <activity android:name=".HomeActivity" />
         <activity
             android:name=".RegisterActivity"

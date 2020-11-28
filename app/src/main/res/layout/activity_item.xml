@@ -46,8 +46,8 @@
         android:text="Category"
         android:textSize="20sp"
         android:textStyle="italic"
-        app:layout_constraintEnd_toEndOf="@+id/itemImage"
-        app:layout_constraintTop_toTopOf="@+id/itemName" />
+        app:layout_constraintBottom_toBottomOf="@+id/itemName"
+        app:layout_constraintEnd_toEndOf="@+id/itemImage" />
 
     <TextView
         android:id="@+id/itemPrice"

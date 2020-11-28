@@ -70,7 +70,7 @@ public class HomeActivity extends AppCompatActivity {
                         for(QueryDocumentSnapshot item: task.getResult()) {
                             names.add(item.getString("Name"));
                             descriptions.add(item.getString("Description"));
-                            categories.add(item.getString("Categories"));
+                            categories.add(item.getString("Category"));
                             prices.add(item.getString("Price"));
                             imagesUrl.add(item.getString("Image"));
                             dates.add(item.getDate("Date"));

@@ -39,8 +39,8 @@
                 android:text="Category"
                 android:textSize="16sp"
                 android:textStyle="italic"
-                app:layout_constraintBottom_toBottomOf="@+id/feedName"
-                app:layout_constraintStart_toEndOf="@+id/feedDescription" />
+                app:layout_constraintEnd_toEndOf="@+id/feedPrice"
+                app:layout_constraintTop_toTopOf="@+id/feedName" />
 
             <TextView
                 android:id="@+id/feedName"
