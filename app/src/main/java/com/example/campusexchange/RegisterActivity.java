@@ -3,6 +3,7 @@ package com.example.campusexchange;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -98,7 +99,9 @@ public class RegisterActivity extends AppCompatActivity {
                         });
 
                 if(failure[0]) return;
-                //Move to main page
+                Intent homeIntent = new Intent(RegisterActivity.this, HomeActivity.class);
+                startActivity(homeIntent);
+                finish();
             }
         });
     }
