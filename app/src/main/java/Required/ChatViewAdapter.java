@@ -81,7 +81,7 @@ public class ChatViewAdapter extends RecyclerView.Adapter<ChatViewAdapter.ChatVi
             date = itemView.findViewById(R.id.chatMessageDate);
             cardLayout = itemView.findViewById(R.id.chatCardLayout);
             sentMessageColor = R.color.messageSent;
-            receivedMessageColor = R.color.messageRecieved;
+            receivedMessageColor = R.color.messageReceived;
         }
     }
 }

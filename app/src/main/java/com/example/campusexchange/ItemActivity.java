@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,7 +34,7 @@ public class ItemActivity extends AppCompatActivity {
 
     ImageView itemImage;
     TextView itemName, itemDescription, itemCategory, itemPrice, itemPersonName, itemDate;
-    Button itemChatButton;
+    ImageButton itemChatButton;
 
     String imageUri, name, description, category, price, personName, date;
     Intent fromHome;
@@ -54,6 +55,7 @@ public class ItemActivity extends AppCompatActivity {
         itemPrice = findViewById(R.id.itemPrice);
         itemPersonName = findViewById(R.id.itemPersonName);
         itemDate = findViewById(R.id.itemDate);
+        itemChatButton = findViewById(R.id.itemChatButton);
 
         getItemData();
         setItemData();

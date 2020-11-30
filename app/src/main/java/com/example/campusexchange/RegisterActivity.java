@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -31,6 +32,7 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText editPass;
     private EditText editConfPass;
     private Button buttonSubmit;
+    private TextView buttonLogin;
 
     private FirebaseFirestore db;           //Firebase
     private FirebaseAuth mAuth;             //Firebase Authorisation
@@ -47,6 +49,7 @@ public class RegisterActivity extends AppCompatActivity {
         editPass = findViewById(R.id.reg_pass);
         editConfPass = findViewById(R.id.reg_conf_pass);
         buttonSubmit = findViewById(R.id.buttonSubmitReg);
+        buttonLogin = findViewById(R.id.login_button);
 
         db = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
@@ -101,6 +104,15 @@ public class RegisterActivity extends AppCompatActivity {
                 if(failure[0]) return;
                 Intent homeIntent = new Intent(RegisterActivity.this, HomeActivity.class);
                 startActivity(homeIntent);
+                finish();
+            }
+        });
+
+        buttonLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent loginIntent = new Intent(RegisterActivity.this, LoginActivity.class);
+                startActivity(loginIntent);
                 finish();
             }
         });

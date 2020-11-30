@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">Campus Exchange</string>
     <string name="campus_exchange">Campus Exchange</string>
+    <string name="tag_line">Sell. Barter. Share.</string>
+    <string name="login">Login</string>
+    <string name="register">Register</string>
+    <string name="registration_id">Registration ID</string>
+    <string name="password">Password</string>
 </resources>

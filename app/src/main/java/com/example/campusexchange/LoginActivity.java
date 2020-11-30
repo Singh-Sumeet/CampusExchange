@@ -7,6 +7,7 @@ import android.text.LoginFilter;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -33,7 +34,8 @@ public class LoginActivity extends AppCompatActivity {
     CollectionReference users;  //For refering directly to users collection
     EditText uname;
     EditText pass;
-    Button login, register;
+    Button login;
+    TextView register;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +57,8 @@ public class LoginActivity extends AppCompatActivity {
                 final Boolean[] failure = {false};
                 String reg_id = uname.getText().toString().trim();
                 String pass = uname.getText().toString().trim();
+
+
 
                 mAuth.signInWithEmailAndPassword(reg_id, pass)  //Sign in happening
                         .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {   //if sign in execution complete...
