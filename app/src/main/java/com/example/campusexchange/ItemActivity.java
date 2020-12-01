@@ -63,6 +63,7 @@ public class ItemActivity extends AppCompatActivity {
         itemChatButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                /*
                 final boolean[] docExists = new boolean[1];
                 db = FirebaseFirestore.getInstance();
                 chats = db.collection("Chats");
@@ -124,6 +125,9 @@ public class ItemActivity extends AppCompatActivity {
                                 }
                             }
                         });
+
+                 */
+                goToChat();
             }
         });
     }
@@ -148,7 +152,7 @@ public class ItemActivity extends AppCompatActivity {
         category = fromHome.getStringExtra("Category");
         price = fromHome.getStringExtra("Price");
         imageUri = fromHome.getStringExtra("Image");
-        personName = fromHome.getStringExtra("Person");
+        personName = fromHome.getStringExtra("PersonName");
         date = fromHome.getStringExtra("Date");
     }
 

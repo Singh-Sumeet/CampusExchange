@@ -18,6 +18,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
@@ -64,6 +65,7 @@ public class RegisterActivity extends AppCompatActivity {
                 final String regId = editRegId.getText().toString();
                 String pass = editPass.getText().toString();
                 String confPass = editConfPass.getText().toString();
+                final Map<String, Object> newUser = new HashMap<>();
 
                 if(!regId.matches("^[C|E|I]2K[1|2][0-9][0-9]{6}$")) {   //matches colege's reg id
                     Toast.makeText(RegisterActivity.this, "Invalid Registration ID", Toast.LENGTH_SHORT).show();
@@ -80,17 +82,24 @@ public class RegisterActivity extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {    //After registration execution completes
                                 if(task.isSuccessful()) {   //if registration successful
-                                    currentUser = mAuth.getCurrentUser();
-                                    Map<String, Object> newUser = new HashMap<>();
+                                    currentUser = task.getResult().getUser();
                                     User.setUID(currentUser.getUid());  newUser.put("UID", currentUser.getUid());
                                     User.setName(name);                 newUser.put("Name", name);
                                     User.setRegId(regId);               newUser.put("RegID", regId);
+                                    User.setProfilePic("null");         newUser.put("ProfilePic", "null");
                                     users.add(newUser).addOnFailureListener(new OnFailureListener() {   //Add the new user to Users collection
                                         @Override
                                         public void onFailure(@NonNull Exception e) {   //If users can't be added
                                             Toast.makeText(RegisterActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
                                             failure[0] = true;
                                             currentUser.delete();   //have to delete auth
+                                        }
+                                    }).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<DocumentReference> task) {
+                                            Intent homeIntent = new Intent(RegisterActivity.this, HomeActivity.class);
+                                            startActivity(homeIntent);
+                                            finish();
                                         }
                                     });
                                 }
@@ -102,9 +111,6 @@ public class RegisterActivity extends AppCompatActivity {
                         });
 
                 if(failure[0]) return;
-                Intent homeIntent = new Intent(RegisterActivity.this, HomeActivity.class);
-                startActivity(homeIntent);
-                finish();
             }
         });
 

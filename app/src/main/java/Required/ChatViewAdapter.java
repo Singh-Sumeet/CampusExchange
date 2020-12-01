@@ -5,34 +5,32 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.campusexchange.ChatActivity;
 import com.example.campusexchange.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import Useful.ChatData;
+
 public class ChatViewAdapter extends RecyclerView.Adapter<ChatViewAdapter.ChatViewHolder> {
 
     Context context;
-    int noOfMessages;
-    List<String> messages;
-    List<String> dates;
-    List<String> fromUs;
+    List<ChatData> chatData;
     String theirName;
     //TODO:Adding and Removing Chats
 
-    public ChatViewAdapter(Context ctxt, int noMess, List<String> mess, List<String> dts, List<String> frmUs, String thrName) {
-        noOfMessages = noMess;
-        messages = new ArrayList<>(mess);
-        dates = new ArrayList<>(dts);
-        fromUs = new ArrayList<>(frmUs);
-        theirName = new String(thrName);
+    public ChatViewAdapter(Context ctxt, List<ChatData> cd, String thrName) {
         context = ctxt;
+        chatData = cd;
+        theirName = new String(thrName);
     }
 
     @NonNull
@@ -45,27 +43,13 @@ public class ChatViewAdapter extends RecyclerView.Adapter<ChatViewAdapter.ChatVi
 
     @Override
     public void onBindViewHolder(@NonNull ChatViewAdapter.ChatViewHolder holder, int position) {
-        holder.message.setText(messages.get(position));
-        ConstraintSet constraintSet = new ConstraintSet();
-        constraintSet.clone(context, holder.cardLayout.getId());
-
-        if(fromUs.get(position).contentEquals("True")) {
-            constraintSet.setHorizontalBias(holder.message.getId(), 1);
-            constraintSet.applyTo(holder.cardLayout);
-            holder.message.setBackgroundColor(holder.sentMessageColor);
-        }
-        else {
-            constraintSet.setHorizontalBias(holder.message.getId(), 0);
-            constraintSet.applyTo(holder.cardLayout);
-            holder.message.setBackgroundColor(holder.receivedMessageColor);
-        }
-
-        holder.date.setText(dates.get(position));
+        holder.message.setText(chatData.get(position).message);
+        holder.date.setText(chatData.get(position).date);
     }
 
     @Override
     public int getItemCount() {
-        return noOfMessages;
+        return chatData.size();
     }
 
     public class ChatViewHolder extends RecyclerView.ViewHolder {

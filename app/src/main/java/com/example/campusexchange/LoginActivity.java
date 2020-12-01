@@ -55,18 +55,23 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 final Boolean[] failure = {false};
-                String reg_id = uname.getText().toString().trim();
-                String pass = uname.getText().toString().trim();
+                String reg_id = uname.getText().toString();
+                String passText = pass.getText().toString();
 
+                if(reg_id.contentEquals("") || passText.contentEquals("")) {
+                    Toast.makeText(LoginActivity.this, "Invalid Username or Password", Toast.LENGTH_LONG).show();
+                    return;
+                }
 
+                String email = reg_id + "@pict.college";
 
-                mAuth.signInWithEmailAndPassword(reg_id, pass)  //Sign in happening
+                mAuth.signInWithEmailAndPassword(email, passText)  //Sign in happening
                         .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {   //if sign in execution complete...
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {    //this function after sign in execution
                                 if(task.isSuccessful()) {   //if signed in
                                     Toast.makeText(LoginActivity.this, "Success", Toast.LENGTH_SHORT).show();
-                                    currentUser = mAuth.getCurrentUser();
+                                    currentUser = task.getResult().getUser();
                                     String uid = currentUser.getUid();
                                     Query qUser = users.whereEqualTo("UID", uid);   //query created, not executed
                                     qUser.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() { //Query executed
@@ -75,31 +80,32 @@ public class LoginActivity extends AppCompatActivity {
                                             if(!task.isSuccessful()) {  //if query failed
                                                 Toast.makeText(LoginActivity.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
                                                 failure[0] = true;
+                                                return;
                                             }
                                             else {  //if query passed
                                                for(QueryDocumentSnapshot u: task.getResult()) { //task contains only one result
                                                    User.setUID(u.get("UID").toString());
                                                    User.setName(u.get("Name").toString());
                                                    User.setRegId(u.get("RegID").toString());
-                                                   User.setProfilePic(Uri.parse(u.get("ProfilePic").toString()));
+                                                   User.setProfilePic(u.get("ProfilePic").toString());
                                                }
                                                if(task.getResult().isEmpty()) { //If no result comes, it means user exists without data.
                                                    currentUser.delete(); //If result is empty the user exists but has no data. So we must delete the user
                                                    Toast.makeText(LoginActivity.this, "Try registering again", Toast.LENGTH_SHORT).show();
                                                }
+                                                Intent homeIntent = new Intent(LoginActivity.this, HomeActivity.class);
+                                                startActivity(homeIntent);
+                                                finish();
                                             }
                                         }
                                     });
-                                    Intent homeIntent = new Intent(LoginActivity.this, HomeActivity.class);
-                                    startActivity(homeIntent);
-                                    finish();
+                                    if(failure[0]) return;
                                 }
                                 else {  //If not signed in
-                                    Toast.makeText(LoginActivity.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                                    Toast.makeText(LoginActivity.this, "Can't Log In"+task.getException().getMessage(), Toast.LENGTH_LONG).show();
                                 }
                             }
                         });
-
             }
         });
 
