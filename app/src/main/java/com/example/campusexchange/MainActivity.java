@@ -1,5 +1,6 @@
 package com.example.campusexchange;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -14,8 +15,13 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
 
 import Useful.User;
@@ -25,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
+    private FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,22 +42,37 @@ public class MainActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
+        db = FirebaseFirestore.getInstance();
         final Handler handler = new Handler();
 
         if(currentUser != null) {   //User is logeged in
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    User.setUID(currentUser.getUid());
-                    User.setName(currentUser.getDisplayName());
-                    User.setRegId(currentUser.getEmail().substring(0, 11));
-                    //TODO:Still have to get current user's profile pic
-                    //TODO:So instead of from here, we should probably get it from the collection "Users" which I am leaving for now
-
-                    Toast.makeText(MainActivity.this, "Logged In", Toast.LENGTH_SHORT).show();
-                    Intent homeIntent = new Intent(MainActivity.this, HomeActivity.class);
-                    startActivity(homeIntent);
-                    finish();
+                    db.collection("Users").whereEqualTo("UID", currentUser.getUid()).get()
+                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                    if (!task.isSuccessful()) {
+                                        Toast.makeText(MainActivity.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                                        return;
+                                    }
+                                    for(QueryDocumentSnapshot result: task.getResult()) {
+                                        User.setUID(result.getString("UID"));
+                                        User.setName(result.getString("Name"));
+                                        User.setRegId(result.getString("RegID"));
+                                        User.setProfilePic(result.getString("ProfilePic"));
+                                    }
+                                    if(task.getResult().isEmpty()) {
+                                        //TODO:why is create user not null but there is no user in database, because database was handled manually.
+                                        return;
+                                    }
+                                    Toast.makeText(MainActivity.this, "Logged In", Toast.LENGTH_SHORT).show();
+                                    Intent homeIntent = new Intent(MainActivity.this, HomeActivity.class);
+                                    startActivity(homeIntent);
+                                    finish();
+                                }
+                            });
 
                 }
             }, 3000);
