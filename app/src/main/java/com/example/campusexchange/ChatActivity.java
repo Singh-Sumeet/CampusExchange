@@ -50,6 +50,7 @@ public class ChatActivity extends AppCompatActivity {
     FirebaseFirestore db;
     CollectionReference chats;
     DocumentSnapshot chatDocumentSnapshot;
+    DocumentReference chatDocumentReference;
 
     Intent fromIntent;
     RecyclerView chatView;
@@ -86,7 +87,6 @@ public class ChatActivity extends AppCompatActivity {
                                 if(task.isSuccessful()) {   //If query2 is successful
                                     if(task.getResult().isEmpty()) {    //If Query 2 too is empty, no chats present between the users.
                                         createChat();
-                                        getDataFromChat();
                                         return;
                                     }
                                     for(DocumentSnapshot doc: task.getResult()) {chatDocumentSnapshot = doc; getDataFromChat();} //Document reference of chat
@@ -138,6 +138,9 @@ public class ChatActivity extends AppCompatActivity {
                             @Override
                             public void onSuccess(Void aVoid) {
                                 theChatDoc.update("ChatNumber", numberChats);
+                                theChatDoc.update("RecentText", chatMessage);
+                                theChatDoc.update("RecentDate", Calendar.getInstance().getTime());
+                                theChatDoc.update("RecentFrom", User.getUID());
                                 noOfMessages = numberChats;
                                 chatData.add(new ChatData(chatMessage, Calendar.getInstance().getTime().toString(), "True"));
                                 chatViewAdapter.notifyItemInserted(numberChats);
@@ -188,6 +191,8 @@ public class ChatActivity extends AppCompatActivity {
                     DocumentSnapshot oneChatDocSnap = task.getResult();
                     chatData.add(new ChatData(oneChatDocSnap.get("Message").toString(), oneChatDocSnap.get("Date").toString(), oneChatDocSnap.get("From").toString().equals(User.getUID()) ? "True" : "False"));
                     chatViewAdapter.notifyItemInserted(pos[0]);
+
+                    //TODO:Order messages based on time/DocumentNumber, here they are ordered as they come.
                 }
             });
         }
@@ -202,6 +207,9 @@ public class ChatActivity extends AppCompatActivity {
         chatMetaData.put("User1ID", User.getUID());
         chatMetaData.put("User2Name", theirName);
         chatMetaData.put("User2ID", theirUID);
+        chatMetaData.put("RecentText", "");
+        chatMetaData.put("RecentDate", "");
+        chatMetaData.put("RecentFrom", "");
         chats.add(chatMetaData).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
             @Override
             public void onComplete(@NonNull Task<DocumentReference> task) {
@@ -209,16 +217,22 @@ public class ChatActivity extends AppCompatActivity {
                     Toast.makeText(ChatActivity.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
                     return;
                 }
-                DocumentReference chatDocumentReference = task.getResult();
+                chatDocumentReference = task.getResult();
                 chatDocumentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         chatDocumentSnapshot = task.getResult();
+                        Map<String, Object> zerothChat = new HashMap<>();
+                        zerothChat.put("Required", "Required");
+                        chatDocumentReference.collection("ChatMessages").document("0").set(zerothChat)
+                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        getDataFromChat();
+                                    }
+                                });
                     }
                 });
-                Map<String, Object> zerothChat = new HashMap<>();
-                zerothChat.put("Required", "Required");
-                chatDocumentReference.collection("ChatMessages").document("0").set(zerothChat);
             }
         });
     }

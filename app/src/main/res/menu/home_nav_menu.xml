@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <item
+        android:id="@+id/menuChats"
+        android:icon="@android:drawable/sym_action_chat"
+        android:title="Chats" />
+    <item
+        android:id="@+id/menuHome"
+        android:icon="@drawable/logo"
+        android:title="Home" />
+    <item
+        android:id="@+id/menuSellItem"
+        android:icon="@android:drawable/ic_input_add"
+        android:title="Sell Item" />
+</menu>

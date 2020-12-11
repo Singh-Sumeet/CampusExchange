@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
                             });
 
                 }
-            }, 3000);
+            }, 1000);
         }
         else { //User isn't signed in
             handler.postDelayed(new Runnable() {
@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
                     finish();
 
                 }
-            }, 3000);
+            }, 1000);
         }
     }
 }
