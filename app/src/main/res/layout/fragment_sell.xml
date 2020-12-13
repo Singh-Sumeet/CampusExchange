@@ -1,0 +1,87 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="HomeNavigation.SellFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/sellItemImage"
+            android:layout_width="353dp"
+            android:layout_height="353dp"
+            android:layout_marginTop="30dp"
+            android:src="@drawable/ic_launcher_background"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.495"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/sellItemName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:ems="10"
+            android:hint="Name"
+            android:inputType="textPersonName"
+            android:maxLines="1"
+            app:layout_constraintStart_toStartOf="@+id/sellItemImage"
+            app:layout_constraintTop_toBottomOf="@+id/sellItemImage" />
+
+        <EditText
+            android:id="@+id/sellItemDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:ems="10"
+            android:hint="Description"
+            android:inputType="textMultiLine|textPersonName"
+            android:lines="4"
+            app:layout_constraintStart_toStartOf="@+id/sellItemName"
+            app:layout_constraintTop_toBottomOf="@+id/sellItemName" />
+
+        <EditText
+            android:id="@+id/sellItemPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:ems="10"
+            android:hint="Price"
+            android:inputType="numberDecimal"
+            app:layout_constraintStart_toStartOf="@+id/sellItemDescription"
+            app:layout_constraintTop_toBottomOf="@+id/sellItemCategory" />
+
+        <Button
+            android:id="@+id/sellItemSubmit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Put For Sale"
+            app:layout_constraintEnd_toEndOf="@+id/sellItemImage"
+            app:layout_constraintTop_toTopOf="@+id/sellItemPrice" />
+
+        <ImageButton
+            android:id="@+id/sellItemImageSelect"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@android:drawable/ic_menu_camera"
+            app:layout_constraintBottom_toBottomOf="@+id/sellItemImage"
+            app:layout_constraintEnd_toEndOf="@+id/sellItemImage" />
+
+        <Spinner
+            android:id="@+id/sellItemCategory"
+            android:layout_width="208dp"
+            android:layout_height="37dp"
+            android:layout_marginTop="20dp"
+            android:entries="@array/categories"
+            android:spinnerMode="dropdown"
+            app:layout_constraintStart_toStartOf="@+id/sellItemDescription"
+            app:layout_constraintTop_toBottomOf="@+id/sellItemDescription" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</FrameLayout>

@@ -2,7 +2,12 @@ package com.example.campusexchange;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.PermissionChecker;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -45,6 +50,25 @@ public class MainActivity extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         final Handler handler = new Handler();
 
+        if(
+            ContextCompat.checkSelfPermission(
+                    MainActivity.this,
+                    Manifest.permission.READ_EXTERNAL_STORAGE
+            ) != PermissionChecker.PERMISSION_GRANTED
+        && ContextCompat.checkSelfPermission(
+                MainActivity.this,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE
+            ) != PermissionChecker.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                    MainActivity.this,
+                    new String[]{
+                            Manifest.permission.READ_EXTERNAL_STORAGE,
+                            Manifest.permission.WRITE_EXTERNAL_STORAGE
+                    }, 1
+            );
+        }
+
         if(currentUser != null) {   //User is logeged in
             handler.postDelayed(new Runnable() {
                 @Override
@@ -75,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
                             });
 
                 }
-            }, 3000);
+            }, 1000);
         }
         else { //User isn't signed in
             handler.postDelayed(new Runnable() {
@@ -87,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
                     finish();
 
                 }
-            }, 3000);
+            }, 1000);
         }
     }
 }

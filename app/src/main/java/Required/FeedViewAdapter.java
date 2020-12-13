@@ -59,7 +59,7 @@ public class FeedViewAdapter extends RecyclerView.Adapter<FeedViewAdapter.FeedVi
         holder.description.setText(descriptions.get(position));
         holder.category.setText(categories.get(position));
         holder.price.setText(prices.get(position));
-        Glide.with(context).load(imagesUrl.get(position)).centerCrop().into(holder.image);
+        if(!imagesUrl.get(position).contentEquals("null")) Glide.with(context).load(imagesUrl.get(position)).centerCrop().into(holder.image);
 
         holder.feedLayout.setOnClickListener(new View.OnClickListener() {
             @Override
