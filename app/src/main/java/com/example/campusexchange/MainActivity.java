@@ -2,7 +2,12 @@ package com.example.campusexchange;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.PermissionChecker;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -44,6 +49,25 @@ public class MainActivity extends AppCompatActivity {
         currentUser = mAuth.getCurrentUser();
         db = FirebaseFirestore.getInstance();
         final Handler handler = new Handler();
+
+        if(
+            ContextCompat.checkSelfPermission(
+                    MainActivity.this,
+                    Manifest.permission.READ_EXTERNAL_STORAGE
+            ) != PermissionChecker.PERMISSION_GRANTED
+        && ContextCompat.checkSelfPermission(
+                MainActivity.this,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE
+            ) != PermissionChecker.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                    MainActivity.this,
+                    new String[]{
+                            Manifest.permission.READ_EXTERNAL_STORAGE,
+                            Manifest.permission.WRITE_EXTERNAL_STORAGE
+                    }, 1
+            );
+        }
 
         if(currentUser != null) {   //User is logeged in
             handler.postDelayed(new Runnable() {
